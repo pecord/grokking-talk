@@ -1,0 +1,12 @@
+node_modules/
+frames/
+frames-dense/
+key-frames/
+selected/
+*.mp4
+*.vtt
+*.info.json
+slides.html
+.DS_Store
+transcript.txt
+perceptron-transcript.txt

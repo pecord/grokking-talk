@@ -106,7 +106,7 @@ We call it "1 + 2 = 3" — the model just sees **patterns mapped to patterns**.
 
 ::right::
 
-<img src="/selected/02c_model_perspective.jpg" class="h-80 mx-auto mt-12" />
+<img src="/selected/02c_model_perspective.jpg" class="h-80 mx-auto mt-12 object-contain" />
 
 <!--
 "So here's the problem 1 + 2 = 3. That's what WE see. We see numbers, an operation, and an answer."
@@ -160,7 +160,7 @@ Welch Labs — [The Perceptron](https://www.youtube.com/watch?v=l-9ALe3U-Fg)
 
 ::right::
 
-<img src="/selected/02a_perceptron_board.jpg" class="h-80 mx-auto mt-12" />
+<img src="/selected/02a_perceptron_board.jpg" class="h-80 mx-auto mt-12 object-contain" />
 
 <!--
 "So let's talk about how a model actually learns to match these patterns."
@@ -188,7 +188,7 @@ Repeat a billion times.
 
 ::right::
 
-<img src="/selected/02e_perceptron_labeled.jpg" class="h-80 mx-auto mt-12" />
+<img src="/selected/02e_perceptron_labeled.jpg" class="h-80 mx-auto mt-12 object-contain" />
 
 <!--
 "The learning algorithm is dead simple. You can see the four cases here."
@@ -242,7 +242,7 @@ You already do this every time you read a clock.
 
 ::right::
 
-<img src="/selected/09_clock_modular_math.jpg" class="h-80 mx-auto mt-12" />
+<img src="/selected/09_clock_modular_math.jpg" class="h-80 mx-auto mt-12 object-contain" />
 
 <!--
 "Before I show you the weird thing, I need to explain one concept: modular arithmetic."
@@ -264,7 +264,7 @@ Researchers trained a tiny model on modular addition.
 
 All the combinations of A + B mod 113. Held back some for testing.
 
-<img src="/selected/01_modular_addition_table.jpg" class="h-72 mx-auto" />
+<img src="/selected/01_modular_addition_table.jpg" class="h-72 mx-auto object-contain" />
 
 <!--
 "So in 2021, a team at OpenAI set up a simple experiment."
@@ -286,7 +286,7 @@ All the combinations of A + B mod 113. Held back some for testing.
 
 ~0% accuracy on testing examples — can't do new problems
 
-<img src="/selected/03_training_curve_memorized.jpg" class="h-72 mx-auto" />
+<img src="/selected/03_training_curve_memorized.jpg" class="h-72 mx-auto object-contain" />
 
 <!--
 "And here's what happened. The blue line is accuracy on the training data — the problems it saw during training. It shoots up to 100%. The model memorized every single answer."
@@ -306,7 +306,7 @@ Training: 100%. Testing: still flat at 0%.
 
 Nothing improves. For a long time.
 
-<img src="/selected/04c_grokking_complete.jpg" class="h-72 mx-auto" />
+<img src="/selected/04c_grokking_complete.jpg" class="h-72 mx-auto object-contain" />
 
 <!--
 "And if you keep training... nothing happens. For a long time."
@@ -324,7 +324,7 @@ Nothing improves. For a long time.
 
 ## Then...
 
-<img src="/selected/05_grokking_curve_labeled.jpg" class="h-96 mx-auto" />
+<img src="/selected/05_grokking_curve_labeled.jpg" class="h-96 mx-auto object-contain" />
 
 <!--
 Let the image do the work. Pause before speaking.
@@ -354,7 +354,7 @@ Long pause. Let it sink in.
 
 **Reality:**
 
-<img src="/selected/11_neuron_evolution_forward.gif" class="h-72 mx-auto" />
+<img src="/selected/11_neuron_evolution_forward.gif" class="h-72 mx-auto object-contain" />
 
 <!--
 "So researchers popped the hood. They looked inside the model at the actual neuron activations."
@@ -376,7 +376,7 @@ Let the gif play through once. It shows structure emerging from noise.
 
 Waves. Loops. Circles.
 
-<img src="/selected/11_neuron_scatter_plots.jpg" class="h-80 mx-auto" />
+<img src="/selected/11_neuron_scatter_plots.jpg" class="h-80 mx-auto object-contain" />
 
 <!--
 "Here's what the fully trained model looks like inside."
@@ -404,7 +404,7 @@ Addition = **rotation** around the circle.
 
 ::right::
 
-<img src="/selected/10_clock_x_plus_y_rotation.jpg" class="h-80 mx-auto mt-8" />
+<img src="/selected/10_clock_x_plus_y_rotation.jpg" class="h-80 mx-auto mt-8 object-contain" />
 
 <!--
 "Remember the clock from earlier? Modular arithmetic wraps around — just like a clock face."
@@ -426,7 +426,7 @@ Addition = **rotation** around the circle.
 
 Early layers: computes **cos** and **sin** of its inputs.
 
-<img src="/selected/16_pipeline_cos_sin_xy.jpg" class="h-80 mx-auto" />
+<img src="/selected/16_pipeline_cos_sin_xy.jpg" class="h-80 mx-auto object-contain" />
 
 <!--
 "Now let's get specific about what's actually happening inside the model."
@@ -444,7 +444,7 @@ Early layers: computes **cos** and **sin** of its inputs.
 
 Computes **products** of those functions — cos(kx) * cos(ky)
 
-<img src="/selected/18_surface_cos_kx_cos_ky.jpg" class="h-80 mx-auto" />
+<img src="/selected/18_surface_cos_kx_cos_ky.jpg" class="h-80 mx-auto object-contain" />
 
 <!--
 "In the middle layers, things get more interesting. The model starts multiplying these trig functions together."
@@ -462,7 +462,7 @@ A single neuron fires for every pair of inputs where **x + y = 65**.
 
 It learned to **add**.
 
-<img src="/selected/20_diagonal_stripes_with_sums.jpg" class="h-72 mx-auto" />
+<img src="/selected/20_diagonal_stripes_with_sums.jpg" class="h-72 mx-auto object-contain" />
 
 <!--
 "This is where it clicks."
@@ -488,7 +488,7 @@ Pause. Let someone in the audience figure it out.
 
 A trigonometric identity converts products of trig functions into a **sum of the inputs**.
 
-<img src="/selected/22_trig_identity_reveal.jpg" class="h-64 mx-auto" />
+<img src="/selected/22_trig_identity_reveal.jpg" class="h-64 mx-auto object-contain" />
 
 <!--
 "And here's the punchline."
@@ -510,7 +510,7 @@ Pause.
 
 ## The full picture
 
-<img src="/selected/24_full_pipeline_with_identity.jpg" class="h-96 mx-auto" />
+<img src="/selected/24_full_pipeline_with_identity.jpg" class="h-96 mx-auto object-contain" />
 
 <!--
 "Here's the whole pipeline. Numbers go in on the left, correct answers come out on the right."
@@ -531,7 +531,7 @@ Pause.
 - Appears late in training
 - Hidden the whole time
 
-<img src="/selected/23_training_evolution_noisy_to_clean.jpg" class="h-48 mx-auto" />
+<img src="/selected/23_training_evolution_noisy_to_clean.jpg" class="h-48 mx-auto object-contain" />
 
 <!--
 "So let's step back and think about what just happened."
@@ -553,7 +553,7 @@ Anthropic found a **6-dimensional manifold** in Claude Haiku that handles line b
 
 The same kind of geometric structure. In a production model.
 
-<img src="/selected/25_anthropic_manifold_paper.jpg" class="h-64 mx-auto" />
+<img src="/selected/25_anthropic_manifold_paper.jpg" class="h-64 mx-auto object-contain" />
 
 <!--
 "Now here's the part that should make you a little uncomfortable."

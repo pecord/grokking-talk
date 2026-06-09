@@ -7,6 +7,8 @@ drawings:
 transition: fade-out
 class: text-center
 background: black
+duration: 30min
+timer: countdown
 ---
 
 <style>
@@ -98,6 +100,10 @@ class: text-center
 ## How AI Learns to Learn
 
 <div class="muted mt-8">Patrick Ecord</div>
+
+<div class="muted text-sm mt-6">
+Based on Welch Labs — <em>"The most complex model we actually understand"</em> (YouTube)
+</div>
 
 <!--
 Hello everyone. My name is Patrick. It's great to see your beautiful faces.

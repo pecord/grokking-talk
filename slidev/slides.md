@@ -202,9 +202,9 @@ layout: two-cols
 
 ## Modular Arithmetic
 
-What's 10 + 5 on a 12-hour clock?
+What's 11 + 2 on a 12-hour clock?
 
-**3.**
+**1.**
 
 When the number hits the max, it wraps around.
 
@@ -217,7 +217,7 @@ That's modular math.
 <!--
 Before I show you the weird thing, I need to explain one concept: modular arithmetic.
 
-Don't let the name scare you — you already know this. What's 10 + 5 on a 12-hour clock? It's 3. Not 15 — 3. Because when you hit 12, the clock wraps back around to 1. (unless you are using 24 hour time like a nerd)
+Don't let the name scare you — you already know this. What's 11 + 2 on a 12-hour clock? It's 1. Not 13 — 1. Because when you hit 12, the clock wraps back around to 1. (unless you are using 24 hour time like a nerd)
 
 That wraparound is the whole trick. Keep the clock in your head, because the model is going to independently discover a version of it.
 -->
@@ -248,7 +248,7 @@ Researchers set up a simple experiment.
 
 They took a tiny neural network — way smaller than anything you'd use in production — and trained it to do modular addition. Specifically, A plus B mod 113.
 
-This is a small example — every combination of x and y, mod 5. They held some back as a test set the model never sees.
+This is a small example showing every combination of x and y, mod 5. On the right, you can see they cut out some of the squares — that's the test set the model never sees. It trains on the ones that are left, then gets evaluated on the cut-out ones.
 
 The model's job: figure out the pattern. Learn to do this addition.
 
@@ -310,17 +310,17 @@ But the experiment keeps going. And the weird part is that the boring flat line 
 <!--
 Let the image do the work. Pause before speaking.
 
+As the story goes, this was almost found by accident — someone left one of these models training way longer than anyone normally would. And when they came back...
+
 ...the test accuracy just... snaps to 100%.
 
 Not gradual. Not a slow improvement. It goes from basically zero to perfect in a tiny window of training steps.
 
 Long pause. Let it sink in.
 
-It didn't get better. It changed strategies.
-
 It stopped memorizing... and started solving.
 
-Somewhere during all those flat training steps where nothing appeared to be happening — the model was quietly building something. And then it clicked.
+It looked like nothing was happening during training, but inside, the model was quietly building patterns. And then it clicked.
 
 And they thought: what the hell is going on inside this model?
 -->
@@ -337,6 +337,11 @@ then suddenly generalizes to the rule.
 
 <div class="signal mt-8">overfit -> plateau -> snap</div>
 
+<div class="muted text-sm italic mt-8 pr-10">
+"You cannot hate anything unless you grok it — understand it so thoroughly that you merge with it, and it merges with you."
+<div class="mt-2 not-italic">— Robert A. Heinlein, <em>Stranger in a Strange Land</em></div>
+</div>
+
 ::right::
 
 <img src="/selected/07_stranger_in_strange_land.jpg" class="h-80 mx-auto mt-8 object-contain" />
@@ -346,7 +351,7 @@ This delayed snap is what the researchers called grokking.
 
 The word comes from Robert Heinlein's Stranger in a Strange Land. To grok something is to understand it deeply, not just know the answer.
 
-In this talk I'm using it in the machine learning sense: the model first fits the examples, then much later finds a rule that generalizes.
+In this talk we're using it in the machine learning sense: at first the model memorizes the examples, then later finds the rule that generalizes.
 
 The next question is the fun one: what changed inside the model?
 -->
@@ -364,7 +369,7 @@ The next question is the fun one: what changed inside the model?
 <img src="/selected/11_neuron_evolution_forward.gif" class="h-72 mx-auto object-contain" />
 
 <!--
-Now we're doing the hacker part. Treat the trained model like a binary we didn't write.
+Now we dig into the model — treat it like an unknown binary and reverse engineer it. We're going to look at the weights and activations and try to understand how it actually learned the rule.
 
 No source code that says 'solve modular addition.' Just weights, activations, and traces.
 
@@ -390,11 +395,9 @@ Waves. Loops. Circles.
 <img src="/selected/11_neuron_scatter_plots.jpg" class="h-80 mx-auto object-contain" />
 
 <!--
-Here's what the fully trained model looks like inside.
+Here's what the fully trained model looks like inside. This is a single-layer transformer — the inputs come in and get transformed into these activations.
 
-These are actual neuron activations — the outputs of individual neurons plotted against each other. And look at the structure.
-
-Clean sine waves on the left. Those loops and circles on the right? Those are pairs of neurons plotted against each other, and they're forming perfect geometric shapes.
+On the left are the activations themselves — clean sine waves. On the right, we plot pairs of neurons against each other. A neuron plotted against itself is just a straight line. But plot the first neuron against the second, and it curls into a loop — a circle.
 
 This is the moment where the autopsy gets interesting. This is supposed to be a model that does addition. Why is it drawing circles?
 -->
@@ -416,17 +419,13 @@ Addition = **rotation** around the circle.
 <img src="/selected/10_clock_x_plus_y_rotation.jpg" class="h-80 mx-auto mt-8 object-contain" />
 
 <!--
-Remember the clock from earlier? Modular arithmetic wraps around — just like a clock face.
+You guys remember the clock from earlier — how modular arithmetic wraps around, just like a clock face? Well, the model figured that out on its own too.
 
-Well... the model figured that out on its own.
+It learned to represent numbers as a position on a circle, and it discovered that that was a useful way to think about the problem.
 
-It learned to represent each number as a position on a circle. Not because anyone told it to — it discovered that this is a useful way to think about the problem.
+And so addition just becomes rotation around that circle. 11 + 2? You land on 1 — you can see that in the picture here. The model's doing the same thing with its own internal representation.
 
-And addition? Addition becomes rotation around the circle. 10 + 5 on a clock? Start at 10, rotate 5 positions, land on 3. The model is doing the same thing — in its own internal representation.
-
-The model stops thinking in numbers and starts thinking in positions.
-
-Nobody explicitly programmed this. The training data only implies the wraparound rule. The model found a representation where that rule is easy.
+The model isn't thinking in numbers, it's thinking in positions on a circle. Nobody told it this — the training data only implied it, and the model figured out it was an easy way to solve the problem.
 -->
 
 ---
@@ -440,11 +439,11 @@ Early layers: learn **trig-like features** of the inputs.
 <img src="/selected/16_pipeline_cos_sin_xy.jpg" class="h-80 mx-auto object-contain" />
 
 <!--
-Now let's get specific about what's actually happening inside the model.
+Let's get specific about what's actually happening inside the model.
 
-In the early layers, the model learns features that look like sine and cosine waves of the inputs. You can see them here — cos of x, sin of x up top, and cos of y, sin of y on the bottom.
+Our input comes in on the left and goes into a sparse linear probe — the x column gives us cosine of x and sine of x, and the y column gives us cosine of y and sine of y. Then it feeds into the attention and the multi-layer perceptron, and out comes an answer.
 
-Why sine and cosine? Because that's how you put a point on a circle. If you remember anything from trig class — or even if you don't — sine and cosine are just the x and y coordinates of a point on a circle.
+You might be wondering: why is it learning sine and cosine? If you remember anything from math class — or even if you don't — sine and cosine are just the x and y coordinates of a point on a circle.
 
 The model learned to put numbers on a circle. On its own.
 -->
@@ -460,11 +459,11 @@ Computes **products** of those functions — cos(kx) * cos(ky)
 <img src="/selected/18_surface_cos_kx_cos_ky.jpg" class="h-80 mx-auto object-contain" />
 
 <!--
-In the middle layers, things get more interesting. The model starts multiplying these trig functions together.
+In these middle layers is where it actually gets interesting. The model starts multiplying those trig functions together.
 
-What you're looking at is a 3D surface — the output of a single neuron as you vary both inputs x and y. And the dominant pattern is cos of x times cos of y.
+What we're looking at is a 3D surface — the output of a single neuron as you vary both x and y. One axis is x, one is y, and the surface is the combination of them. The dominant pattern is cosine of x times cosine of y.
 
-Now this might seem random. Why would multiplying cosines together help you do addition? Bear with me for two more slides.
+It probably seems random — why would multiplying cosines together help you add? Stick with me, and you'll see how it all comes together in a couple slides.
 -->
 
 ---
@@ -482,17 +481,15 @@ It learned to **add**.
 <!--
 This is where it clicks.
 
-Look at these diagonal stripes. Each stripe represents a set of input pairs where the neuron fires maximally.
+Look at these diagonal stripes. Each stripe is a set of input pairs where the neuron fires maximally.
 
-Look at the numbers along the top stripe: x=0 y=65, x=20 y=45, x=40 y=25, x=60 y=5, x=65 y=0. What do they all have in common?
+Look at the numbers along the top stripe: x=0 y=65, x=20 y=45, x=40 y=25, x=60 y=5. What do they have in common? They all add up to 65.
 
-Pause. Let someone in the audience figure it out.
+[Pause — let someone figure it out.]
 
-They all add up to 65.
+So this neuron fires for every pair of inputs that sum to 65. It learned to detect addition — not by adding, but by geometry.
 
-This neuron fires for every pair of inputs whose sum is 65. It learned to detect addition. Not by adding — by geometry. By the orientation of a wave in its internal space.
-
-And the second stripe? Those pairs add to 178. But 178 mod 113 is... 65. Same answer, wrapped around.
+And the second stripe? Those pairs add up to 178. But 178 mod 113 is 65 — same answer, just wrapped around.
 -->
 
 ---
@@ -508,19 +505,17 @@ A trigonometric identity converts products of trig functions into a **sum of the
 <img src="/selected/22_trig_identity_reveal.jpg" class="h-64 mx-auto object-contain" />
 
 <!--
-And here's the punchline.
+Remember that scary equation from the very first slide? This is how it all ties together.
 
-Remember that scary equation from the first slide? This is the shape of the trick.
+We get our sine and cosine waves, they go through the attention and the perceptron, and come out as those 3D surfaces — and the answer reads out on the right.
 
-There's a trick in math where if you multiply trig functions together in the right way, you get addition out the other side. It's a shortcut that's been in textbooks for centuries.
+You can see the equation here: cos(kx)cos(ky) - sin(kx)sin(ky) = cos(k(x+y)). All that's to say — you can combine sines and cosines to get addition back out. It's a trick that's been in textbooks for centuries.
 
-The model learned a circuit that behaves like this. Nobody wrote the identity into the model. It emerged because this representation solves the problem cleanly.
+Nobody wrote that identity into the model. It emerged on its own, because this representation solves the problem cleanly.
 
-So yeah... it reinvented the useful part of trig.
+So it didn't really learn addition. It learned geometry.
 
-Pause.
-
-It didn't learn addition. It learned a geometry.
+(beat) ...when's the last time you had to do something like this, huh?
 -->
 
 ---
@@ -532,11 +527,11 @@ It didn't learn addition. It learned a geometry.
 <img src="/selected/24_full_pipeline_with_identity.jpg" class="h-96 mx-auto object-contain" />
 
 <!--
-Here's the whole pipeline. Numbers go in on the left, correct answers come out on the right.
+Here's the whole pipeline. Numbers go in on the left, the answer comes out on the right.
 
-You don't need to follow every piece of this — the point is that every step has a purpose. The model built this entire process from scratch. It invented the representation, the strategy, and the math to make it work.
+Walk it through: the numbers go into the sparse linear probe, which gives us cosine and sine of x and y. That feeds into the attention and the multi-layer perceptron, which gives us those 3D surfaces. And that reads out as an answer — one of those outputs lights up for the right sum, like the 65 line we just looked at.
 
-Sine and cosine waves on the left. Those 3D surfaces in the middle. The trig identity up in the top right. All of it — discovered by the model.
+You don't need to follow every piece. The point is every step has a purpose, and the model built this whole thing from scratch — the representation, the strategy, the math.
 
 It learned a space where the problem becomes easy.
 -->
@@ -555,11 +550,11 @@ It learned a space where the problem becomes easy.
 <!--
 So let's step back and think about what just happened.
 
-Nobody told this model about circles. Nobody told it about sine or cosine. Nobody wrote a trig identity into the code. The training data is just examples like 'what's 14 plus 87 mod 113.'
+The model was never told about circles, or sine, or cosine. Nobody wrote trigonometry into the code. The training data was just examples like 14 + 87, mod 113.
 
-The model found a geometric representation and trig-like features because that turned out to be an efficient way to solve the problem.
+The model figured out a representation that was an efficient way to solve the problem — and it just happened to be geometric, trig-like.
 
-And it did it late. For thousands of training steps it looked like nothing was happening. Any reasonable engineer would have stopped training. The capability was hidden the entire time.
+And it did it really late. For thousands of steps it looked like nothing was happening — most people would have walked away from the training. (The way the story goes, they only caught it because someone left it running way longer than anyone normally would.) The capability was hidden the entire time.
 
 It looked dumb... until it didn't.
 -->
@@ -575,19 +570,17 @@ The same kind of geometric structure. In a production model.
 <img src="/selected/25_anthropic_manifold_paper.jpg" class="h-64 mx-auto object-contain" />
 
 <!--
-Now here's the part that should make you a little uncomfortable.
+Here's the part that should make you feel a little weird.
 
-Everything I just showed you was a tiny model. A single-layer transformer trained on a toy problem. You might think — okay, cute, but real models are different.
+Everything I just showed you was a tiny model — a single-layer transformer trained on a toy problem. You might think: okay, cute, but real models are way bigger, way more parameters.
 
-Except... Anthropic published a paper where they looked inside Claude Haiku — a real, production language model — and found the same kind of thing.
+Except Anthropic published a paper where they looked inside Claude Haiku — a real production model — and found the same sort of thing.
 
-When Claude is writing text and needs to figure out when to insert a line break, it has to count how many characters it's written on the current line. And the way it does this? A six-dimensional geometric manifold. A curved surface in six-dimensional space where character count and line width are represented as positions on a helix.
+When Claude is writing text, it needs to figure out where to put a line break. To do that, it has to count how many characters it's already written on the line. And the way it does that? A six-dimensional geometric manifold — a curved surface in six-dimensional space where character count and line width are positions on a helix. You can see it in this picture: one axis is the character count, the other is how long the line should be.
 
-The same kind of geometric structure. In a production model with billions of parameters. Being used for something as mundane as line breaks.
+So even in a model with billions of parameters, we're seeing the same kind of geometric structure — used for something as mundane as line breaks.
 
-If a tiny model rediscovers trig to do addition... what are bigger models doing? What geometric structures are hiding inside GPT-4 or Claude that we haven't found yet?
-
-What else is in there?
+If a tiny model rediscovered trig to do addition... what do you think the big models have hiding inside? What else is in there?
 -->
 
 ---
@@ -612,9 +605,9 @@ Models build internal structure we didn't ask for
 <!--
 So that's grokking.
 
-Learning isn't linear. A model can look like it's doing nothing for a long time and then suddenly snap into a completely different strategy.
+Learning isn't linear — a model can look stuck for ages, then snap into a whole new strategy.
 
-Understanding — or something that looks a lot like understanding — can emerge suddenly and without warning.
+Understanding — or something that looks an awful lot like it — can show up all at once, with no warning.
 
 And models build internal structure that nobody asked for. Structure that turns out to be elegant, geometric, and mathematically sophisticated.
 

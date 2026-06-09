@@ -119,6 +119,18 @@ image: /selected/02a_perceptron_board.jpg
 backgroundSize: contain
 ---
 
+<div class="absolute inset-0">
+  <div v-click class="absolute border-4 border-cyan rounded-sm" style="left:12%;top:18%;width:28%;height:64%">
+    <span class="absolute -bottom-7 left-0 text-cyan text-base font-mono font-bold tracking-widest uppercase">inputs</span>
+  </div>
+  <div v-click class="absolute border-4 border-yellow rounded-sm" style="left:43%;top:18%;width:23%;height:64%">
+    <span class="absolute -bottom-7 left-0 text-yellow text-base font-mono font-bold tracking-widest uppercase">weights</span>
+  </div>
+  <div v-click class="absolute border-4 border-green rounded-sm" style="left:68%;top:18%;width:19%;height:64%">
+    <span class="absolute -bottom-7 left-0 text-green text-base font-mono font-bold tracking-widest uppercase">output</span>
+  </div>
+</div>
+
 <!--
 This is an artificial neuron, also called a perceptron, built as a physical machine in the 1950s.
 
@@ -152,8 +164,24 @@ Same trick scales: a real model maps **"The capital of France is" → Paris**.
 ::right::
 
 <div class="flex flex-col items-center gap-4 mt-6">
-  <img src="/selected/02c_model_perspective.jpg" class="h-52 object-contain" />
-  <img src="/selected/02d_llama_capital_france.jpg" class="h-52 object-contain" />
+  <div class="relative">
+    <img src="/selected/02c_model_perspective.jpg" class="h-52 object-contain" />
+    <div v-click class="absolute h-1.5 bg-cyan rounded-full" style="left:13.1%;top:44%;width:5%"></div>
+    <div v-click class="absolute h-1.5 bg-cyan rounded-full" style="left:22.5%;top:50%;width:5%"></div>
+    <div v-click class="absolute h-1.5 bg-cyan rounded-full" style="left:29.4%;top:68%;width:5%"></div>
+    <div v-click class="absolute h-1.5 bg-green rounded-full" style="left:65.7%;top:56%;width:5%"></div>
+  </div>
+  <div class="relative">
+    <img src="/selected/02d_llama_capital_france.jpg" class="h-52 object-contain" />
+    <div v-click>
+      <div class="absolute h-1.5 bg-cyan rounded-full" style="left:4.9%;top:48%;width:4%"></div>
+      <div class="absolute h-1.5 bg-cyan rounded-full" style="left:13.2%;top:52%;width:4%"></div>
+      <div class="absolute h-1.5 bg-cyan rounded-full" style="left:20.2%;top:34%;width:4%"></div>
+      <div class="absolute h-1.5 bg-cyan rounded-full" style="left:27.3%;top:59%;width:4%"></div>
+      <div class="absolute h-1.5 bg-cyan rounded-full" style="left:34.3%;top:40%;width:4%"></div>
+    </div>
+    <div v-click class="absolute h-1.5 bg-green rounded-full" style="left:86.6%;top:66%;width:4%"></div>
+  </div>
 </div>
 
 <!--
@@ -176,13 +204,17 @@ layout: two-cols
 
 ## How does it learn?
 
+<v-clicks>
+
 Wrong answer? **Nudge the dials.**
 
 Right answer? **Mostly leave them.**
 
 Repeat until the loss stops yelling.
 
-<div class="signal mt-8">try -> measure error -> nudge -> repeat</div>
+</v-clicks>
+
+<div v-click class="signal mt-8">try -> measure error -> nudge -> repeat</div>
 
 ::right::
 
@@ -210,11 +242,19 @@ layout: two-cols
 
 What's 11 + 2 on a 12-hour clock?
 
+<v-click>
+
 **1.**
+
+</v-click>
+
+<v-click>
 
 When the number hits the max, it wraps around.
 
 That's modular math.
+
+</v-click>
 
 ::right::
 
@@ -243,7 +283,7 @@ All the combinations of x + y, mod 5 (the real run used mod 113). Held back some
     <img src="/selected/01b_modular_table_full.jpg" class="h-64 object-contain" />
     <div class="muted text-sm">full dataset</div>
   </div>
-  <div class="flex flex-col items-center gap-2">
+  <div v-click class="flex flex-col items-center gap-2">
     <img src="/selected/01_modular_addition_table.jpg" class="h-64 object-contain" />
     <div class="muted text-sm">test set held back</div>
   </div>
@@ -267,9 +307,13 @@ Simple enough, right?
 
 ## The Result
 
+<v-clicks>
+
 100% accuracy on training examples — memorized the answers
 
 ~0% accuracy on testing examples — can't do new problems
+
+</v-clicks>
 
 <img src="/selected/03_training_curve_memorized.jpg" class="h-72 mx-auto object-contain" />
 
@@ -291,7 +335,11 @@ If you're a machine learning engineer, you look at this and say 'classic overfit
 
 Training: 100%. Testing: still flat at 0%.
 
+<div v-click>
+
 Nothing improves. For a long time.
+
+</div>
 
 <img src="/selected/04c_grokking_complete.jpg" class="h-72 mx-auto object-contain" />
 
@@ -341,9 +389,9 @@ A model looks like it memorized the training set...
 
 then suddenly generalizes to the rule.
 
-<div class="signal mt-8">overfit -> plateau -> snap</div>
+<div v-click class="signal mt-8">overfit -> plateau -> snap</div>
 
-<div class="muted text-sm italic mt-8 pr-10">
+<div v-click class="muted text-sm italic mt-8 pr-10">
 "You cannot hate anything unless you grok it — understand it so thoroughly that you merge with it, and it merges with you."
 <div class="mt-2 not-italic">— Robert A. Heinlein, <em>Stranger in a Strange Land</em></div>
 </div>
@@ -368,9 +416,17 @@ The next question is the fun one: what changed inside the model?
 
 ## So we popped the hood.
 
+<v-click>
+
 **Expected:** lookup-table junk.
 
+</v-click>
+
+<v-click>
+
 **Reality:** geometry.
+
+</v-click>
 
 <img src="/selected/11_neuron_evolution_forward.gif" class="h-72 mx-auto object-contain" />
 
@@ -414,11 +470,15 @@ layout: two-cols
 
 ## The model discovered something
 
+<v-clicks>
+
 Modular math wraps around... just like a clock.
 
 The model learned to represent numbers as **positions on a circle.**
 
 Addition = **rotation** around the circle.
+
+</v-clicks>
 
 ::right::
 
@@ -478,9 +538,17 @@ It probably seems random — why would multiplying cosines together help you add
 
 ## The diagonal
 
+<v-click>
+
 A single neuron fires for every pair of inputs where **x + y = 65**.
 
+</v-click>
+
+<v-click>
+
 It learned to **add**.
+
+</v-click>
 
 <img src="/selected/20_diagonal_stripes_with_sums.jpg" class="h-72 mx-auto object-contain" />
 
@@ -546,10 +614,14 @@ It learned a space where the problem becomes easy.
 
 ## Why this is wild
 
+<v-clicks>
+
 - Not explicitly programmed to do this
 - Not explicitly in the training data
 - Appears late in training
 - Hidden the whole time
+
+</v-clicks>
 
 <img src="/selected/23_training_evolution_noisy_to_clean.jpg" class="h-48 mx-auto object-contain" />
 
@@ -571,7 +643,11 @@ It looked dumb... until it didn't.
 
 Anthropic found a **6-dimensional manifold** in Claude Haiku that handles line break arithmetic.
 
+<div v-click>
+
 The same kind of geometric structure. In a production model.
+
+</div>
 
 <img src="/selected/25_anthropic_manifold_paper.jpg" class="h-64 mx-auto object-contain" />
 
@@ -598,15 +674,23 @@ class: text-center
 
 <br>
 
+<v-clicks>
+
 Learning isn't linear
 
 Understanding can emerge suddenly
 
 Models build internal structure we didn't ask for
 
+</v-clicks>
+
 <br>
 
+<div v-click>
+
 ### "It looked dumb... until it didn't."
+
+</div>
 
 <!--
 So that's grokking.

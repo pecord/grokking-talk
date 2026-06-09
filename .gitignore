@@ -10,3 +10,8 @@ slides.html
 .DS_Store
 transcript.txt
 perceptron-transcript.txt
+
+# build artifacts & local working files
+dist/
+grokking-handout.pdf
+source-transcript.md

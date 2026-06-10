@@ -218,7 +218,11 @@ Repeat until the loss stops yelling.
 
 ::right::
 
-<img src="/selected/02e_perceptron_labeled.jpg" class="h-80 mx-auto mt-12 object-contain" />
+<div class="relative w-fit mx-auto mt-12">
+  <img src="/selected/02e_perceptron_labeled.jpg" class="h-80 object-contain" />
+  <div v-click="1" class="absolute border-4 border-red rounded" style="left:7%;top:25%;width:65%;height:25%"></div>
+  <div v-click="2" class="absolute border-4 border-green rounded" style="left:7%;top:51%;width:65%;height:27%"></div>
+</div>
 
 <!--
 The way it learns isn't magic, it's a feedback loop.
@@ -723,7 +727,7 @@ Welch Labs — The most complex model we actually understand
 https://youtu.be/D8GOeCFFby4
 
 Welch Labs — The Perceptron
-https://youtube.com/watch?v=l-9ALe3U-Fg
+https://youtu.be/l-9ALe3U-Fg
 
 <br>
 
